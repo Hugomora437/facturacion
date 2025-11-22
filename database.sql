@@ -3,12 +3,12 @@ CREATE DATABASE Facturacion1;
 USE Facturacion1;
 
 CREATE TABLE t_rol (
-    id_rol      int(11) 	NOT NULL,
-    rol         int(11) 	NOT NULL,
+    id_rol      int(11) 	AUTO_INCREMENT NOT NULL,
+    rol         varchar(20) NOT NULL,
     CONSTRAINT  pk_rol   	PRIMARY KEY(id_rol)
 ) ENGINE=InnoDB;
 
-INSERT INTO t_rol (id_rol, rol) VALUES(NULl,"Administrador"),(NULl,"Secretario"),(NULl,"Bodega");
+INSERT INTO t_rol (id_rol, rol) VALUES(NULL,"Administrador"),(NULL,"Secretario"),(NULL,"Bodega");
 
 
 
@@ -74,3 +74,25 @@ CREATE TABLE t_factura(
     CONSTRAINT      fk_cliente  FOREIGN KEY(id_cliente)  REFERENCES t_cliente(id_cliente), 
     CONSTRAINT      fk_producto FOREIGN KEY(id_producto) REFERENCES t_producto(id_producto) 
 )ENGINE=InnoDb;
+
+
+-- Factura
+
+SELECT	FAC.id_factura,
+		FAC.fecha,
+        FAC.id_usuario,
+        USU.nombre,
+        USU.apellido,
+        FAC.id_cliente,
+        CLI.Nombre_cliente,
+       	CLI.direccion,
+        FAC.id_producto,
+        PRO.producto,
+        UNI.unidad,
+        PRO.vr_unitario,
+        FAC.cantidad
+FROM t_factura FAC
+INNER JOIN t_usuario USU ON USU.id_usuario = FAC.id_usuario
+INNER JOIN t_cliente CLI ON CLI.id_cliente = FAC.id_cliente
+INNER JOIN t_producto PRO ON PRO.id_producto = FAC.id_producto
+INNER JOIN t_unidad UNI ON PRO.id_unidad = UNI.id_unidad
